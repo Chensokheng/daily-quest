@@ -24,7 +24,10 @@ export default function QuestLog() {
 				const day = days[log.date];
 				const percentage = log.count !== 0 ? (log.count * 100) / 6 : 0;
 				return (
-					<div key={index} className=" relative  rounded-full">
+					<div
+						key={index}
+						className=" relative  rounded-full  w-10 h-10"
+					>
 						<CircularProgressbar
 							styles={buildStyles({
 								pathColor: "#22c55e",
@@ -34,14 +37,11 @@ export default function QuestLog() {
 						/>
 						<div
 							className={cn(
-								"h-9 w-9 flex items-center justify-center rounded-full font-bold absolute top-[50%] ",
+								"h-10 w-10 flex items-center justify-center rounded-full font-bold absolute top-0   ",
 								log.is_completed
 									? "bg-green-500 text-white "
 									: "text-zinc-600"
 							)}
-							style={{
-								transform: "translate(9%, -50%)",
-							}}
 						>
 							{day[0]}
 						</div>

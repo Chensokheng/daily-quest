@@ -3,15 +3,14 @@
 import { createSupabaseBrowser } from "@/lib/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 
-export default function useUser() {
+export default function useQuests() {
 	return useQuery({
-		queryKey: ["user"],
+		queryKey: ["quests"],
 		queryFn: async () => {
 			const supabase = createSupabaseBrowser();
 			const { data } = await supabase
-				.from("profiles")
-				.select("*,strike(*)")
-				.single();
+				.from("quests")
+				.select("*,quest_progress(*)");
 			return data;
 		},
 	});

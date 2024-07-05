@@ -1,27 +1,32 @@
 "use client";
-
 import { cn, getCurrentWeekDaysWithNames } from "@/lib/utils";
 import "react-circular-progressbar/dist/styles.css";
 
 import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
-export default function QuestLog() {
-	const days = getCurrentWeekDaysWithNames();
+import useQuestLog from "@/app/hook/useQuestLog";
 
-	const quest_log = [
-		{ date: "2024-06-30", is_completed: true, count: 6 },
-		{ date: "2024-07-01", is_completed: true, count: 6 },
-		{ date: "2024-07-02", is_completed: true, count: 6 },
-		{ date: "2024-07-03", is_completed: false, count: 3 },
-		{ date: "2024-07-04", is_completed: false, count: 0 },
-		{ date: "2024-07-05", is_completed: false, count: 0 },
-		{ date: "2024-07-06", is_completed: false, count: 0 },
-	];
+export type IQuestLog = {
+	user_id?: string;
+	log_date: string;
+	is_completed: boolean;
+	count: number;
+	dayName?: string;
+};
+
+export default function QuestLog() {
+	const { data, isFetching } = useQuestLog();
+	if (isFetching) {
+		return <h1>Loading</h1>;
+	}
+	const logs = getCurrentWeekDaysWithNames(data) as {
+		[key: string]: IQuestLog;
+	};
 
 	return (
 		<div className="flex items-center justify-between p-1 sm:p-5">
-			{quest_log.map((log, index) => {
-				const day = days[log.date];
+			{Object.keys(logs).map((key, index) => {
+				const log = logs[key];
 				const percentage = log.count !== 0 ? (log.count * 100) / 6 : 0;
 				return (
 					<div
@@ -43,7 +48,7 @@ export default function QuestLog() {
 									: "text-zinc-600"
 							)}
 						>
-							{day[0]}
+							{log?.dayName ? log.dayName[0] : ""}
 						</div>
 					</div>
 				);

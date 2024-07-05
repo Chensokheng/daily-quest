@@ -17,6 +17,7 @@ export type Database = {
           id: string
           image_url: string | null
           provider: string
+          quest_counts: number
         }
         Insert: {
           created_at?: string
@@ -25,6 +26,7 @@ export type Database = {
           id: string
           image_url?: string | null
           provider: string
+          quest_counts?: number
         }
         Update: {
           created_at?: string
@@ -33,13 +35,140 @@ export type Database = {
           id?: string
           image_url?: string | null
           provider?: string
+          quest_counts?: number
         }
         Relationships: [
           {
             foreignKeyName: "profiles_id_fkey"
             columns: ["id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quest_log: {
+        Row: {
+          count: number
+          is_completed: boolean
+          log_date: string
+          user_id: string
+        }
+        Insert: {
+          count?: number
+          is_completed?: boolean
+          log_date?: string
+          user_id: string
+        }
+        Update: {
+          count?: number
+          is_completed?: boolean
+          log_date?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quest_log_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quest_progress: {
+        Row: {
+          created_at: string
+          image_url: string | null
+          is_completed: boolean
+          quest_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          image_url?: string | null
+          is_completed?: boolean
+          quest_id?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          image_url?: string | null
+          is_completed?: boolean
+          quest_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quest_progress_quest_id_fkey"
+            columns: ["quest_id"]
+            isOneToOne: true
+            referencedRelation: "quests"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "quest_progress_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quests: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          emoji: string
+          id: string
+          public: boolean
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          emoji: string
+          id?: string
+          public?: boolean
+          title: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          emoji?: string
+          id?: string
+          public?: boolean
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quests_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      strike: {
+        Row: {
+          count: number
+          user_id: string
+        }
+        Insert: {
+          count?: number
+          user_id: string
+        }
+        Update: {
+          count?: number
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "strike_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
@@ -49,7 +178,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_current_week_data: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          user_id: string
+          log_date: string
+          is_completed: boolean
+          count: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

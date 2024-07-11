@@ -50,18 +50,21 @@ export type Database = {
       quest_log: {
         Row: {
           count: number
+          id: string
           is_completed: boolean
           log_date: string
           user_id: string
         }
         Insert: {
           count?: number
+          id?: string
           is_completed?: boolean
           log_date?: string
-          user_id: string
+          user_id?: string
         }
         Update: {
           count?: number
+          id?: string
           is_completed?: boolean
           log_date?: string
           user_id?: string
@@ -70,7 +73,7 @@ export type Database = {
           {
             foreignKeyName: "quest_log_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -79,6 +82,7 @@ export type Database = {
       quest_progress: {
         Row: {
           created_at: string
+          id: string
           image_url: string | null
           is_completed: boolean
           quest_id: string
@@ -86,13 +90,15 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          id?: string
           image_url?: string | null
           is_completed?: boolean
-          quest_id?: string
-          user_id: string
+          quest_id: string
+          user_id?: string
         }
         Update: {
           created_at?: string
+          id?: string
           image_url?: string | null
           is_completed?: boolean
           quest_id?: string
@@ -102,7 +108,7 @@ export type Database = {
           {
             foreignKeyName: "quest_progress_quest_id_fkey"
             columns: ["quest_id"]
-            isOneToOne: true
+            isOneToOne: false
             referencedRelation: "quests"
             referencedColumns: ["id"]
           },
@@ -178,15 +184,38 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      get_current_week_data: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          user_id: string
-          log_date: string
-          is_completed: boolean
-          count: number
-        }[]
-      }
+      get_current_week_data:
+        | {
+            Args: Record<PropertyKey, never>
+            Returns: {
+              user_id: string
+              log_date: string
+              is_completed: boolean
+              count: number
+            }[]
+          }
+        | {
+            Args: {
+              p_user_id: number
+            }
+            Returns: {
+              user_id: number
+              log_date: string
+              is_completed: boolean
+              count: number
+            }[]
+          }
+        | {
+            Args: {
+              p_user_id: string
+            }
+            Returns: {
+              user_id: string
+              log_date: string
+              is_completed: boolean
+              count: number
+            }[]
+          }
     }
     Enums: {
       [_ in never]: never

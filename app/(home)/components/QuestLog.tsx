@@ -5,8 +5,11 @@ import "react-circular-progressbar/dist/styles.css";
 import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import useQuestLog from "@/app/hook/useQuestLog";
+import { startOfWeek, addDays, format, getDay } from "date-fns";
+import useUser from "@/app/hook/useUser";
 
 export type IQuestLog = {
+	id?: string;
 	user_id?: string;
 	log_date: string;
 	is_completed: boolean;
@@ -15,8 +18,9 @@ export type IQuestLog = {
 };
 
 export default function QuestLog() {
+	const { data: user, isFetching: userFetching } = useUser();
 	const { data, isFetching } = useQuestLog();
-	if (isFetching) {
+	if (isFetching && userFetching) {
 		return <h1>Loading</h1>;
 	}
 	const logs = getCurrentWeekDaysWithNames(data) as {
@@ -28,6 +32,19 @@ export default function QuestLog() {
 			{Object.keys(logs).map((key, index) => {
 				const log = logs[key];
 				const percentage = log.count !== 0 ? (log.count * 100) / 6 : 0;
+				const isToday = format(new Date(), "yyyy-MM-dd") === key;
+				const isFailed =
+					!isToday &&
+					log.is_completed === false &&
+					key >
+						format(
+							user?.created_at
+								? new Date(user?.created_at!)
+								: new Date(),
+							"yyyy-MM-dd"
+						) &&
+					key < format(new Date(), "yyyy-MM-dd");
+
 				return (
 					<div
 						key={index}
@@ -37,18 +54,24 @@ export default function QuestLog() {
 							styles={buildStyles({
 								pathColor: "#22c55e",
 							})}
-							className="w-10 h-10 text-green-500 "
+							className="w-10 h-10 absolute top-0 z-30  text-green-500 "
 							value={percentage}
 						/>
 						<div
 							className={cn(
-								"h-10 w-10 flex items-center justify-center rounded-full font-bold absolute top-0   ",
+								"h-10 w-10 flex items-center justify-center rounded-full font-bold absolute top-0  ",
 								log.is_completed
 									? "bg-green-500 text-white "
-									: "text-zinc-600"
+									: "text-zinc-600",
+								{
+									"bg-gray-300": isToday,
+								},
+								{
+									"bg-red-600 text-white": isFailed,
+								}
 							)}
 						>
-							{log?.dayName ? log.dayName[0] : ""}
+							{log?.dayName && <p> {log.dayName[0]}</p>}
 						</div>
 					</div>
 				);

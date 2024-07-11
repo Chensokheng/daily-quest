@@ -60,3 +60,10 @@ export function getCurrentWeekDaysWithNames(
 	}
 	return [];
 }
+
+export const getImageUrl = (imageName: string) => {
+	return (
+		`https://zpapagojlfddtjyciyum.supabase.co/storage/v1/object/public/images/` +
+		imageName
+	);
+};

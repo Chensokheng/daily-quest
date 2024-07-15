@@ -10,6 +10,8 @@ import imageCompression from "browser-image-compression";
 import Image from "next/image";
 import { createSupabaseBrowser } from "@/lib/supabase/client";
 import useUser from "@/app/hook/useUser";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 type IQuest = {
 	created_at: string;
@@ -29,13 +31,14 @@ type IQuest = {
 	};
 };
 export default function Quests() {
-	const { data, isFetching } = useQuests();
 	const { data: user } = useUser();
+	const { data } = useQuests(user?.id || "");
 
 	const [imagePrevew, setImagePreview] = useState("");
 	const [reviewFile, setReviewFile] = useState<File>();
 	const [quest, setQuest] = useState<IQuest>();
 	const [isPending, startTransition] = useTransition();
+	const queryClient = useQueryClient();
 
 	const openQuest = (selectQuest: IQuest) => {
 		setQuest(selectQuest);
@@ -70,8 +73,9 @@ export default function Quests() {
 				if (!error) {
 					document.getElementById("quest-trigger")?.click();
 					reset();
+					queryClient.invalidateQueries({ queryKey: ["quests"] });
 				} else {
-					console.log("Fail to upload", error);
+					toast.error("Fail to upload " + error.message);
 				}
 			}
 		});

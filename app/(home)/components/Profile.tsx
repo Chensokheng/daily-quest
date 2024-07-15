@@ -14,7 +14,7 @@ export default function Profile() {
 				<UserProfile />
 			</div>
 
-			<h1 className="text-3xl font-bold">Hi, Sokheng</h1>
+			<h1 className="text-3xl font-bold">Hi, {data?.display_name}</h1>
 			<p className="text-zinc-600 font-medium">
 				{data?.strike?.count} Days in a row
 			</p>

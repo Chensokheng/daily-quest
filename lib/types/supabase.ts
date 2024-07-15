@@ -9,6 +9,42 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      challenger: {
+        Row: {
+          created_at: string
+          is_accepted: boolean | null
+          reviewer_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          is_accepted?: boolean | null
+          reviewer_id: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          is_accepted?: boolean | null
+          reviewer_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "challenger_reviewer_id_fkey"
+            columns: ["reviewer_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "challenger_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -83,28 +119,38 @@ export type Database = {
         Row: {
           created_at: string
           id: string
-          image_url: string | null
+          image_url: string
           is_completed: boolean
+          object_id: string
           quest_id: string
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
-          image_url?: string | null
+          image_url: string
           is_completed?: boolean
+          object_id: string
           quest_id: string
           user_id?: string
         }
         Update: {
           created_at?: string
           id?: string
-          image_url?: string | null
+          image_url?: string
           is_completed?: boolean
+          object_id?: string
           quest_id?: string
           user_id?: string
         }
         Relationships: [
+          {
+            foreignKeyName: "quest_progress_object_id_fkey"
+            columns: ["object_id"]
+            isOneToOne: false
+            referencedRelation: "objects"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "quest_progress_quest_id_fkey"
             columns: ["quest_id"]
@@ -216,6 +262,16 @@ export type Database = {
               count: number
             }[]
           }
+      get_profile: {
+        Args: Record<PropertyKey, never>
+        Returns: Record<string, unknown>
+      }
+      is_my_reviewer: {
+        Args: {
+          a_user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never

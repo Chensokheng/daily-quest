@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { startOfWeek, addDays, format, getDay } from "date-fns";
+import { startOfWeek, addDays, format, getDay, parseISO } from "date-fns";
 import { IQuestLog } from "@/app/(home)/components/QuestLog";
 
 export function cn(...inputs: ClassValue[]) {
@@ -14,7 +14,7 @@ export function getCurrentWeekDaysWithNames(
 		const parseLog: any = {};
 		data.forEach((value) => {
 			const formattedDate = format(
-				new Date(value.log_date),
+				parseISO(value.log_date),
 				"yyyy-MM-dd"
 			); // Format the date as desired
 			parseLog[formattedDate] = { ...value, log_date: formattedDate };
@@ -24,7 +24,6 @@ export function getCurrentWeekDaysWithNames(
 		const startOfCurrentWeek = startOfWeek(today); // Start of current week (Sunday)
 		const logs: { [key: string]: IQuestLog } = {}; // Array to hold each day of the week with names
 
-		// Array of day names for formatting
 		const dayNames = [
 			"Sunday",
 			"Monday",

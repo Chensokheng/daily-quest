@@ -1,11 +1,41 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Image from "next/image";
 import UserProfile from "@/components/supaauth/user-profile";
 import useUser from "@/app/hook/useUser";
+import { useQueryClient } from "@tanstack/react-query";
+import { createSupabaseBrowser } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 export default function Profile() {
 	const { data } = useUser();
+	const queryClient = useQueryClient();
+	useEffect(() => {
+		const supabase = createSupabaseBrowser();
+		const channel = supabase
+			.channel("quests-update")
+			.on(
+				"postgres_changes",
+				{
+					event: "UPDATE",
+					schema: "public",
+					table: "quest_progress",
+					filter: "user_id=eq." + data?.id,
+				},
+				() => {
+					toast.info("Your Quest have been approved.", {
+						duration: 2000,
+					});
+					queryClient.invalidateQueries({ queryKey: ["quest-log"] });
+					queryClient.invalidateQueries({ queryKey: ["quests"] });
+				}
+			)
+			.subscribe();
+		return () => {
+			channel.unsubscribe();
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [data]);
 
 	return (
 		<div className="flex items-center justify-center flex-col gap-3">

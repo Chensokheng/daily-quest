@@ -12,7 +12,7 @@ export default function useQuestLog() {
 			let { data } = await supabase
 				.from("quest_log")
 				.select("*")
-				.lte("log_date", endOfWeek(new Date()).toISOString())
+				.gte("log_date", startOfWeek(new Date()).toISOString())
 				.gte("log_date", startOfWeek(new Date()).toISOString());
 			return data;
 		},

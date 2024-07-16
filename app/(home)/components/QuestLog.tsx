@@ -5,7 +5,7 @@ import "react-circular-progressbar/dist/styles.css";
 import React from "react";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import useQuestLog from "@/app/hook/useQuestLog";
-import { startOfWeek, addDays, format, getDay } from "date-fns";
+import { format } from "date-fns";
 import useUser from "@/app/hook/useUser";
 
 export type IQuestLog = {
@@ -64,7 +64,7 @@ export default function QuestLog() {
 									? "bg-green-500 text-white "
 									: "text-zinc-600",
 								{
-									"bg-gray-300": isToday,
+									"bg-gray-300": isToday && !log.is_completed,
 								},
 								{
 									"bg-red-600 text-white": isFailed,

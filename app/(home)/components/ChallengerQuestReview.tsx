@@ -16,19 +16,68 @@ import {
 import { getImageUrl } from "@/lib/utils";
 import { BG_COLOR } from "@/lib/constants";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { createSupabaseBrowser } from "@/lib/supabase/client";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 export default function ChallengerQuestReview() {
 	const { data: user } = useUser();
+	const queryClient = useQueryClient();
 
 	const { data } = useChallengerQuests(user?.challenger?.reviewer_id || "");
 
-	useEffect(() => {}, []);
+	useEffect(() => {
+		const supabase = createSupabaseBrowser();
+		const channel = supabase
+			.channel("reviewer-quests")
+			.on(
+				"postgres_changes",
+				{
+					event: "INSERT",
+					schema: "public",
+					table: "quest_progress",
+					filter: "user_id=eq." + user?.challenger?.reviewer_id,
+				},
+				(payload) => {
+					toast.info("Your challenger just finished a quest.");
+					queryClient.invalidateQueries({
+						queryKey: ["challenger-quests"],
+					});
+				}
+			)
+			.subscribe();
+		return () => {
+			channel.unsubscribe();
+		};
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [user]);
+
+	const handleMarkComplete = async (id: string) => {
+		const supabase = createSupabaseBrowser();
+		const { error } = await supabase
+			.from("quest_progress")
+			.update({ is_completed: true })
+			.eq("id", id);
+		if (error) {
+			toast.error("Fail to mark this quest completed. " + error.message);
+		} else {
+			const updateData = data?.filter((quest) => quest.id !== id);
+			queryClient.setQueryData(["challenger-quests"], () => updateData);
+			if (updateData?.length === 0) {
+				document.getElementById("challenger-quest")?.click();
+				toast.success("Successfully review all quests.");
+			}
+		}
+	};
 
 	return (
 		<div>
 			<Dialog>
 				<DialogTrigger asChild id="challenger-quest">
-					<Button className="flex items-center gap-2 rounded-full">
+					<Button
+						className="flex items-center gap-2 rounded-full"
+						disabled={data?.length === 0}
+					>
 						Review
 						<Badge variant="destructive">{data?.length}+</Badge>
 					</Button>
@@ -74,7 +123,12 @@ export default function ChallengerQuestReview() {
 													className=" object-cover object-center rounded-2xl"
 												/>
 											</div>
-											<div className="w-full flex items-center justify-center">
+											<div
+												className="w-full flex items-center justify-center"
+												onClick={() =>
+													handleMarkComplete(quest.id)
+												}
+											>
 												<Button className="w-80 mx-auto rounded-full">
 													Mark Complete ✅
 												</Button>

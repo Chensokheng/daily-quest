@@ -123,20 +123,35 @@ export default function Quests() {
 							}
 						>
 							<div className="flex items-center justify-between">
-								<h1 className="text-3xl font-bold line-clamp-2">
+								<h1 className="text-3xl font-bold line-clamp-3">
 									{quest.title}
 								</h1>
 								<span className="text-7xl">{quest.emoji}</span>
 							</div>
 							{questProgress?.id ? (
-								<Button
-									className={cn("rounded-full", {
-										"  border-zinc-500": !isComplted,
-									})}
-									variant="outline"
-								>
-									In Review ⌛️
-								</Button>
+								<>
+									{questProgress.is_completed ? (
+										<Button
+											className={cn("rounded-full", {
+												"  border-zinc-500":
+													!isComplted,
+											})}
+											variant="outline"
+										>
+											Completed ✅
+										</Button>
+									) : (
+										<Button
+											className={cn("rounded-full", {
+												"  border-zinc-500":
+													!isComplted,
+											})}
+											variant="outline"
+										>
+											In Review ⌛️
+										</Button>
+									)}
+								</>
 							) : (
 								<Button
 									className={cn("rounded-full", {
@@ -168,6 +183,7 @@ export default function Quests() {
 								document
 									.getElementById("quest-trigger")
 									?.click();
+								reset();
 							}}
 						>
 							Back
@@ -204,14 +220,36 @@ export default function Quests() {
 								/>
 							</div>
 						)}
+						{reviewFile && (
+							<div className="flex items-center justify-center">
+								<Button
+									className=" rounded-full"
+									variant="ghost"
+									onClick={() => {
+										setReviewFile(undefined);
+										setImagePreview("");
+									}}
+								>
+									Change
+								</Button>
+							</div>
+						)}
 					</div>
 					{quest?.quest_progress?.id ? (
-						<Button
-							variant={"outline"}
-							className=" rounded-full h-12"
-						>
-							Waiting for Review ⌛️
-						</Button>
+						<>
+							{quest.quest_progress.is_completed ? (
+								<Button className=" rounded-full h-12">
+									Completed ✅
+								</Button>
+							) : (
+								<Button
+									variant={"outline"}
+									className=" rounded-full h-12"
+								>
+									Waiting for Review ⌛️
+								</Button>
+							)}
+						</>
 					) : (
 						<Button
 							className=" rounded-full h-12 flex items-center justify-center gap-2"

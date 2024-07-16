@@ -12,8 +12,6 @@ export default function useQuests(user_id: string) {
 
 			currentDate.setHours(0, 0, 0, 0);
 
-			console.log(currentDate.toISOString());
-
 			const { data } = await supabase
 				.from("quests")
 				.select("*,quest_progress(*)")

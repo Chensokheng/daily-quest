@@ -12,6 +12,7 @@ import { createSupabaseBrowser } from "@/lib/supabase/client";
 import useUser from "@/app/hook/useUser";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type IQuest = {
 	created_at: string;
@@ -31,8 +32,8 @@ type IQuest = {
 	};
 };
 export default function Quests() {
-	const { data: user } = useUser();
-	const { data } = useQuests(user?.id || "");
+	const { data: user, isFetching: userFetching } = useUser();
+	const { data, isFetching } = useQuests(user?.id || "");
 
 	const [imagePrevew, setImagePreview] = useState("");
 	const [reviewFile, setReviewFile] = useState<File>();
@@ -99,6 +100,17 @@ export default function Quests() {
 				`${quest?.quest_progress?.user_id}/${quest?.quest_progress?.quest_id}/${quest?.quest_progress?.image_url}`
 		  )
 		: undefined;
+
+	if (userFetching || isFetching) {
+		return (
+			<div className="w-full p-5 space-y-6">
+				<Skeleton className="w-full h-36 rounded-md bg-gray-400 -rotate-3" />
+				<Skeleton className="w-full h-36 rounded-md bg-gray-400 rotate-3" />
+				<Skeleton className="w-full h-36 rounded-md bg-gray-400 -rotate-3" />
+			</div>
+		);
+	}
+
 	return (
 		<>
 			<div className=" p-5 space-y-7 w-full">
@@ -171,7 +183,7 @@ export default function Quests() {
 				<DialogTrigger id="quest-trigger"></DialogTrigger>
 				<DialogContent
 					className={cn(
-						"h-screen w-full  border-none p-5 flex justify-between flex-col",
+						"h-screen max-w-lg  border-none p-5 flex justify-between flex-col",
 						quest?.background
 					)}
 				>

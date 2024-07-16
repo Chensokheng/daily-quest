@@ -15,7 +15,6 @@ export default function useChallenger(userId: string) {
 				.eq("reviewer_id", userId)
 				.eq("is_accepted", false)
 				.single();
-			console.log(data, error, "===");
 			return data;
 		},
 		enabled: !!userId,

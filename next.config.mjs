@@ -1,3 +1,5 @@
+import nextPwa from "next-pwa";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	images: {
@@ -18,4 +20,14 @@ const nextConfig = {
 	},
 };
 
-export default nextConfig;
+const withPWA = nextPwa({
+	dest: "public",
+	register: true,
+	disable: process.env.NODE_ENV === "development",
+});
+
+const config = withPWA({
+	...nextConfig,
+});
+
+export default config;

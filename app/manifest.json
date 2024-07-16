@@ -1,0 +1,27 @@
+{
+	"theme_color": "#8fff70",
+	"background_color": "#191a1a",
+	"icons": [
+		{
+			"purpose": "maskable",
+			"sizes": "512x512",
+			"src": "icon512_maskable.png",
+			"type": "image/png"
+		},
+		{
+			"purpose": "any",
+			"sizes": "512x512",
+			"src": "icon512_rounded.png",
+			"type": "image/png"
+		}
+	],
+	"orientation": "any",
+	"display": "standalone",
+	"dir": "auto",
+	"lang": "en-US",
+	"name": "daily-quest",
+	"short_name": "habit quest",
+	"description": "quest to improve habits",
+	"start_url": "/",
+	"scope": "/"
+}

@@ -76,13 +76,13 @@ export default function ChallengerQuestReview() {
 				<DialogTrigger asChild id="challenger-quest">
 					<Button
 						className="flex items-center gap-2 rounded-full"
-						disabled={data?.length === 0}
+						disabled={data?.length === 0 || !data}
 					>
 						Review
 						<Badge variant="destructive">{data?.length}+</Badge>
 					</Button>
 				</DialogTrigger>
-				<DialogContent className="h-screen w-full bg-green-100 ">
+				<DialogContent className="h-screen max-w-lg bg-green-100 ">
 					<ScrollArea className="h-screen w-full">
 						<div className="p-2 space-y-5">
 							<Button
@@ -96,6 +96,7 @@ export default function ChallengerQuestReview() {
 							>
 								Back
 							</Button>
+
 							<div className="space-y-5">
 								{data?.map((quest, index) => {
 									const imageUrl = getImageUrl(

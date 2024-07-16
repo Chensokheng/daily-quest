@@ -7,6 +7,7 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import useQuestLog from "@/app/hook/useQuestLog";
 import { format } from "date-fns";
 import useUser from "@/app/hook/useUser";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export type IQuestLog = {
 	id?: string;
@@ -20,8 +21,19 @@ export type IQuestLog = {
 export default function QuestLog() {
 	const { data: user, isFetching: userFetching } = useUser();
 	const { data, isFetching } = useQuestLog();
-	if (isFetching && userFetching) {
-		return <h1>Loading</h1>;
+	if (userFetching || isFetching) {
+		return (
+			<div className="w-full p-5 flex items-center gap-5 justify-evenly">
+				{[0, 1, 2, 3, 4, 5, 6].map((value) => {
+					return (
+						<Skeleton
+							className="h-10 w-10 rounded-full bg-gray-400"
+							key={value}
+						/>
+					);
+				})}
+			</div>
+		);
 	}
 	const logs = getCurrentWeekDaysWithNames(data) as {
 		[key: string]: IQuestLog;

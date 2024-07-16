@@ -37,7 +37,6 @@ export default function Challenger() {
 				"postgres_changes",
 				{ event: "*", schema: "public", table: "challenger" },
 				(payload) => {
-					console.log("Change received!", payload);
 					queryClient.invalidateQueries({
 						queryKey: ["reviewer"],
 					});
@@ -65,7 +64,7 @@ export default function Challenger() {
 					<User /> +
 				</Button>
 			</DialogTrigger>
-			<DialogContent className=" h-screen  bg-green-100 w-full p-5 flex flex-col justify-between">
+			<DialogContent className=" h-screen  bg-green-100 max-w-lg  p-5 flex flex-col justify-between">
 				<div>
 					<Button
 						className=" rounded-full"

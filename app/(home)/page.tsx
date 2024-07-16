@@ -8,7 +8,7 @@ import ChallengerQuestReview from "./components/ChallengerQuestReview";
 
 export default function page() {
 	return (
-		<div className="w-full max-w-2xl mx-auto  min-h-screen pt-10 bg-green-100 space-y-10">
+		<div className="w-full max-w-lg mx-auto  min-h-screen pt-10 bg-green-100 space-y-10">
 			<Header />
 			<Profile />
 			<QuestLog />

@@ -7,7 +7,7 @@ import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-	metadataBase: new URL("https://next-supabase-vote.vercel.app/"),
+	metadataBase: new URL("https://daily-habit-quest.vercel.app/"),
 
 	title: {
 		template: "%s | Daily Quest",
@@ -21,9 +21,9 @@ export const metadata: Metadata = {
 	openGraph: {
 		title: "Daily Quest",
 		description: "a game to improve your habit",
-		url: "https://next-supabase-vote.vercel.app/",
+		url: "https://daily-habit-quest.vercel.app/",
 		siteName: "Daily Quest",
-		images: "/og.png",
+		images: "/icon512_maskable.png",
 		type: "website",
 	},
 	keywords: ["daily web coding", "chensokheng", "dailywebcoding"],

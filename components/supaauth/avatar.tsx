@@ -17,7 +17,7 @@ const Avatar = ({ className = "w-10" }: { className?: string }) => {
 			)}
 		>
 			{!imageUrl ? (
-				<div className=" border w-10 h-10    grid place-content-center rounded-full hover:scale-105 transition-all">
+				<div className="  w-10 h-10  grid place-content-center rounded-full hover:scale-105 transition-all">
 					<p className="text-4xl -translate-y-1">
 						{data?.email?.[0]}
 					</p>
@@ -26,10 +26,10 @@ const Avatar = ({ className = "w-10" }: { className?: string }) => {
 				<Image
 					src={imageUrl}
 					alt=""
-					width={70}
-					height={70}
+					width={50}
+					height={50}
 					className={cn(
-						" rounded-full border p-1 hover:scale-105 transition-all duration-500",
+						" rounded-full  p-1 hover:scale-105 transition-all duration-500",
 						isFetching
 							? "opacity-0 translate-y-2"
 							: "opacity-1 translate-y-0"

@@ -1,18 +1,16 @@
 import React from "react";
-import Profile from "./components/Profile";
-import Quests from "./components/Quests";
-import QuestLog from "./components/QuestLog";
-import { Bell } from "lucide-react";
 import Header from "./components/Header";
-import ChallengerQuestReview from "./components/ChallengerQuestReview";
+import QuestTabs from "./components/QuestTabs";
+import Activity from "./components/Activity";
+import RealtimeListener from "./components/RealtimeListener";
 
 export default function page() {
 	return (
-		<div className="w-full max-w-lg mx-auto  min-h-screen pt-10 bg-green-100 space-y-10">
+		<div className="w-full max-w-lg mx-auto  min-h-screen pt-10 pb-10 bg-black space-y-10">
+			<RealtimeListener />
 			<Header />
-			<Profile />
-			<QuestLog />
-			<Quests />
+			<Activity />
+			<QuestTabs />
 		</div>
 	);
 }

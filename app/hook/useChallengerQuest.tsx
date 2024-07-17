@@ -12,7 +12,7 @@ export default function useChallengerQuests(reviewer_id: string) {
 
 			currentDate.setHours(0, 0, 0, 0);
 
-			const { data } = await supabase
+			const { data, error } = await supabase
 				.from("quest_progress")
 				.select("*,quests(*),profiles(display_name)")
 				.gte("created_at", currentDate.toISOString())

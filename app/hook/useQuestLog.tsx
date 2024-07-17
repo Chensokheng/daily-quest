@@ -8,12 +8,15 @@ export default function useQuestLog() {
 	return useQuery({
 		queryKey: ["quest-log"],
 		queryFn: async () => {
+			let currentDate = new Date();
+
+			currentDate.setHours(0, 0, 0, 0);
 			const supabase = createSupabaseBrowser();
 			let { data } = await supabase
 				.from("quest_log")
 				.select("*")
-				.gte("log_date", startOfWeek(new Date()).toISOString())
-				.gte("log_date", startOfWeek(new Date()).toISOString());
+				.gte("log_date", currentDate.toISOString())
+				.single();
 			return data;
 		},
 	});

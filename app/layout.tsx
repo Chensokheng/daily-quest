@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import QueryProvider from "@/components/query-provider";
 import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -34,14 +35,21 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" suppressHydrationWarning>
 			<body className={inter.className}>
-				<QueryProvider>
-					<main className="w-full max-w-lg mx-auto  h-screen  bg-green-100 space-y-10">
-						{children}
-					</main>
-				</QueryProvider>
-				<Toaster position="top-center" richColors />
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="dark"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<QueryProvider>
+						<main className="w-full max-w-lg mx-auto  h-screen  bg-green-100 space-y-10">
+							{children}
+						</main>
+					</QueryProvider>
+					<Toaster position="top-center" richColors />
+				</ThemeProvider>
 			</body>
 		</html>
 	);

@@ -2,7 +2,7 @@
 
 import { createSupabaseBrowser } from "@/lib/supabase/client";
 import { useQuery } from "@tanstack/react-query";
-export default function useChallenger(userId: string) {
+export default function useFriendRequest(userId: string) {
 	return useQuery({
 		queryKey: ["challenger"],
 		queryFn: async () => {

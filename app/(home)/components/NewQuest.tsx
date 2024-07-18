@@ -150,14 +150,14 @@ export default function NewQuest({ quest }: { quest: IQuest }) {
 					{!questProgress?.image_url && !imagePrevew ? (
 						<div>
 							<label
-								htmlFor="quest-file"
+								htmlFor={"quest-file-" + quest.id}
 								className="h-80 w-72 border rounded-xl flex items-center justify-center cursor-pointer"
 							>
 								<IconImage className=" size-20 text-gray-400" />
 							</label>
 							<input
 								type="file"
-								id="quest-file"
+								id={"quest-file-" + quest.id}
 								accept="image/*"
 								className=" hidden"
 								onChange={handleFileChange}

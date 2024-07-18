@@ -13,8 +13,7 @@ export default function UserQuests() {
 	return (
 		<div className="px-3 space-y-4">
 			{data?.map((quest, index) => {
-				const bgColor = BG_COLOR[index];
-				return <NewQuest quest={quest} key={quest.id} />;
+				return <NewQuest quest={{ ...quest }} key={quest.id} />;
 			})}
 		</div>
 	);

@@ -7,16 +7,10 @@ export default function PullRefresh() {
 
 	useEffect(() => {
 		let startY = 0;
-		let isAtTop = false;
 		const contentContainer = document.getElementById("body");
 		if (contentContainer) {
 			contentContainer.addEventListener("touchstart", function (e) {
 				startY = e.touches[0].clientY;
-			});
-			window.addEventListener("scroll", function () {
-				// Check if the scrollbar is at the top of the content
-				isAtTop = window.scrollY === 0;
-				console.log(isAtTop);
 			});
 
 			contentContainer.addEventListener("touchmove", function (e) {
@@ -26,9 +20,6 @@ export default function PullRefresh() {
 				if (distance > 500) {
 					handleReload();
 					startY = e.touches[0].clientY;
-				} else {
-					// Handle normal scrolling
-					console.log("Normal scroll");
 				}
 			});
 		}

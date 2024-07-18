@@ -44,7 +44,7 @@ export default function RootLayout({
 					disableTransitionOnChange
 				>
 					<QueryProvider>
-						<main className="w-full max-w-lg mx-auto  h-screen  bg-green-100 space-y-10">
+						<main className="w-full max-w-lg mx-auto  h-screen  bg-zinc-900 space-y-10">
 							{children}
 						</main>
 					</QueryProvider>

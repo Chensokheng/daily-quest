@@ -39,6 +39,7 @@
     "react-email": "2.1.5",
     "react-hook-form": "^7.52.1",
     "react-icons": "^5.2.1",
+    "react-pull-to-refresh": "^2.0.1",
     "react-use": "^17.5.0",
     "resend": "^3.4.0",
     "sharp": "^0.33.4",

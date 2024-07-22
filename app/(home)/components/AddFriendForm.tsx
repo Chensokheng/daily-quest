@@ -64,6 +64,7 @@ export default function InputForm() {
 								<Input
 									placeholder="Enter friend's ID"
 									{...field}
+									className="text-base"
 								/>
 							</FormControl>
 							<FormDescription>

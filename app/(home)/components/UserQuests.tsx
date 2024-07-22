@@ -19,7 +19,7 @@ export default function UserQuests() {
 				})}
 			</div>
 			<div className="pt-5">
-				{user?.enable_custom_quest && <AddCustomQuest />}
+				<AddCustomQuest />
 			</div>
 		</div>
 	);

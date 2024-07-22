@@ -16,7 +16,9 @@ export default function useQuests(user_id: string) {
 				.from("quests")
 				.select("*,quest_progress(*)")
 				.gte("quest_progress.created_at", currentDate.toISOString())
-				.eq("quest_progress.user_id", user_id);
+				.eq("quest_progress.user_id", user_id)
+				.eq("created_by", user_id)
+				.eq("public", false);
 			return data;
 		},
 		enabled: !!user_id,

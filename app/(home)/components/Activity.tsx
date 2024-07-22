@@ -3,22 +3,22 @@ import useQuestLog from "@/app/hook/useQuestLog";
 import useUser from "@/app/hook/useUser";
 import React from "react";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 export default function Activity() {
-	const { data: user } = useUser();
 	const { data } = useQuestLog();
 
-	const percentage = ((data?.count || 0) * 100) / 6;
+	let percentage = ((data?.count || 0) * 100) / (data?.quest_counts || 1);
+
 	return (
 		<div className="px-3 space-y-3">
-			<h1 className="font-bold text-xl">Activity</h1>
+			<div className="flex items-center justify-between">
+				<h1 className="font-bold text-xl">Activity</h1>
+				<Button className="" variant="ghost">
+					View History
+				</Button>
+			</div>
 			<div className="  bg-zinc-900 rounded-lg p-5 space-y-5 ">
-				<div>
-					<h1 className="text-sm text-gray-400">Strike</h1>
-					<h1 className="text-xl font-bold">
-						{user?.strike?.count || 0} days in a row
-					</h1>
-				</div>
 				<div className="space-y-3">
 					<div className="flex items-center justify-between">
 						<h1 className="text-gray-400 text-sm">

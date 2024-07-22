@@ -39,7 +39,7 @@ export type Database = {
           {
             foreignKeyName: "challenger_user_id_fkey"
             columns: ["user_id"]
-            isOneToOne: false
+            isOneToOne: true
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -50,6 +50,7 @@ export type Database = {
           created_at: string
           display_name: string | null
           email: string
+          enable_custom_quest: boolean
           id: string
           image_url: string | null
           provider: string
@@ -59,6 +60,7 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           email: string
+          enable_custom_quest?: boolean
           id: string
           image_url?: string | null
           provider: string
@@ -68,6 +70,7 @@ export type Database = {
           created_at?: string
           display_name?: string | null
           email?: string
+          enable_custom_quest?: boolean
           id?: string
           image_url?: string | null
           provider?: string
@@ -89,6 +92,7 @@ export type Database = {
           id: string
           is_completed: boolean
           log_date: string
+          quest_counts: number
           user_id: string
         }
         Insert: {
@@ -96,6 +100,7 @@ export type Database = {
           id?: string
           is_completed?: boolean
           log_date?: string
+          quest_counts?: number
           user_id?: string
         }
         Update: {
@@ -103,6 +108,7 @@ export type Database = {
           id?: string
           is_completed?: boolean
           log_date?: string
+          quest_counts?: number
           user_id?: string
         }
         Relationships: [
@@ -230,6 +236,12 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      allow_read_profile: {
+        Args: {
+          a_user_id: string
+        }
+        Returns: boolean
+      }
       get_current_week_data:
         | {
             Args: Record<PropertyKey, never>
@@ -262,7 +274,7 @@ export type Database = {
               count: number
             }[]
           }
-      get_profile: {
+      "get_profile()": {
         Args: Record<PropertyKey, never>
         Returns: Record<string, unknown>
       }

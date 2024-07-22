@@ -11,6 +11,7 @@ export type IUser = {
 	image_url: string | null;
 	provider: string;
 	quest_counts: number;
+	enable_custom_quest: boolean;
 	strike: {
 		count: number;
 		user_id: string;
@@ -27,7 +28,7 @@ export default function useUser() {
 			const supabase = createSupabaseBrowser();
 			const user = await supabase.auth.getUser();
 			if (user.data.user) {
-				const { data, error } = await supabase
+				const { data } = await supabase
 					.from("profiles")
 					.select(
 						"*,strike(*),challenger!challenger_user_id_fkey(reviewer_id)"

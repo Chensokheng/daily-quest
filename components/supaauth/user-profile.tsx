@@ -15,7 +15,7 @@ import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import useUser from "@/app/hook/useUser";
 import ManageProfile from "./manage-profile";
 import Avatar from "./avatar";
-
+import Notification from "../notification";
 export default function UserProfile() {
 	const [isSignOut, startSignOut] = useTransition();
 	const router = useRouter();
@@ -31,10 +31,11 @@ export default function UserProfile() {
 	};
 
 	return (
-		<div className="w-full">
+		<div className="   flex justify-between items-center gap-5">
+			<Notification />
 			<Popover>
 				<PopoverTrigger>
-					<Avatar className="w-36 mx-auto" />
+					<Avatar />
 				</PopoverTrigger>
 				<PopoverContent align="center" className="w-[95%] sm:w-[30rem]">
 					<div

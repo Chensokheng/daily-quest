@@ -45,6 +45,32 @@ export type Database = {
           },
         ]
       }
+      notification: {
+        Row: {
+          created_at: string
+          notification_json: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          notification_json: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          notification_json?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string

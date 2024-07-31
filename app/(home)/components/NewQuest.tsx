@@ -14,6 +14,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { createSupabaseBrowser } from "@/lib/supabase/client";
 import useUser from "@/app/hook/useUser";
 import { toast } from "sonner";
+import { sendNotification } from "@/actions/notification";
 
 type IQuest = {
 	created_at: string;
@@ -51,6 +52,16 @@ export default function NewQuest({ quest }: { quest: IQuest }) {
 		setReviewFile(undefined);
 		setImagePreview("");
 	};
+	const handlePushNotification = async () => {
+		if (user) {
+			await sendNotification(
+				"just completed a quest",
+				user?.challenger?.reviewer_id!,
+				user?.image_url!,
+				user.display_name!
+			);
+		}
+	};
 
 	const handleReview = async () => {
 		startTransition(async () => {
@@ -72,6 +83,7 @@ export default function NewQuest({ quest }: { quest: IQuest }) {
 						}
 					);
 				if (!error) {
+					await handlePushNotification();
 					reset();
 					queryClient.invalidateQueries({ queryKey: ["quests"] });
 				} else {

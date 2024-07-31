@@ -1,3 +1,4 @@
+"use client";
 import Register from "@/components/supaauth/register";
 import React from "react";
 

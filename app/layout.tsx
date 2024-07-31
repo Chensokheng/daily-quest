@@ -4,6 +4,7 @@ import "./globals.css";
 import QueryProvider from "@/components/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import Pwa from "@/components/pwa";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -50,6 +51,7 @@ export default function RootLayout({
 					</QueryProvider>
 					<Toaster position="top-center" richColors />
 				</ThemeProvider>
+				<Pwa />
 			</body>
 		</html>
 	);

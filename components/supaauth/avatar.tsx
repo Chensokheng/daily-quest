@@ -2,7 +2,7 @@ import useUser from "@/app/hook/useUser";
 import { cn } from "@/lib/utils";
 import React from "react";
 import Image from "next/image";
-const Avatar = ({ className = "w-10" }: { className?: string }) => {
+const Avatar = ({ className = "w-14" }: { className?: string }) => {
 	const { data, isFetching } = useUser();
 	const imageUrl = data?.image_url;
 
@@ -26,8 +26,8 @@ const Avatar = ({ className = "w-10" }: { className?: string }) => {
 				<Image
 					src={imageUrl}
 					alt=""
-					width={50}
-					height={50}
+					width={70}
+					height={70}
 					className={cn(
 						" rounded-full  p-1 hover:scale-105 transition-all duration-500",
 						isFetching

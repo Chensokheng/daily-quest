@@ -12,6 +12,9 @@ export type IUser = {
 	provider: string;
 	quest_counts: number;
 	enable_custom_quest: boolean;
+	notification: {
+		user_id: string;
+	} | null;
 	strike: {
 		count: number;
 		user_id: string;
@@ -31,7 +34,7 @@ export default function useUser() {
 				const { data } = await supabase
 					.from("profiles")
 					.select(
-						"*,strike(*),challenger!challenger_user_id_fkey(reviewer_id)"
+						"*,strike(*),challenger!challenger_user_id_fkey(reviewer_id),notification(user_id)"
 					)
 					.eq("id", user.data.user?.id)
 					.single();

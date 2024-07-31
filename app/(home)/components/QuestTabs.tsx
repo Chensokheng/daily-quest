@@ -1,10 +1,9 @@
 "use client";
-import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
-import NewQuest from "./NewQuest";
 import UserQuests from "./UserQuests";
 import FriendQuest from "./FriendQuest";
+import { usePathname, useRouter } from "next/navigation";
 export default function QuestTabs() {
 	const [activeTab, setActiveTab] = useState(0);
 

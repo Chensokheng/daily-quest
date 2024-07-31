@@ -11,12 +11,24 @@ import FriendRequest from "./FriendRequest";
 import useChallengerQuests from "@/app/hook/useChallengerQuest";
 import { getImageUrl } from "@/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
+import { sendNotification } from "@/actions/notification";
 export default function FriendQuest() {
 	const { data: user } = useUser();
 	const { data: quests } = useChallengerQuests(
 		user?.challenger?.reviewer_id!
 	);
 	const queryClient = useQueryClient();
+
+	const handlePushNotification = async () => {
+		if (user) {
+			await sendNotification(
+				"just approved your quest",
+				user?.challenger?.reviewer_id!,
+				user?.image_url!,
+				user.display_name!
+			);
+		}
+	};
 
 	const handleApproved = async (id: string) => {
 		const supabase = createSupabaseBrowser();
@@ -27,6 +39,7 @@ export default function FriendQuest() {
 		if (error) {
 			toast.error("Fail to mark this quest completed. " + error.message);
 		} else {
+			handlePushNotification();
 			const updateData = quests?.filter((quest) => quest.id !== id);
 			queryClient.setQueryData(["challenger-quests"], () => updateData);
 			if (updateData?.length === 0) {

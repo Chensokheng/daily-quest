@@ -1,7 +1,5 @@
 "use client";
-import { sendNotification } from "@/actions/notification";
 import React, { useEffect } from "react";
-import { toast } from "sonner";
 
 export default function Pwa() {
 	useEffect(() => {

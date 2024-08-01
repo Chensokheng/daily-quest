@@ -67,7 +67,7 @@ export default function NotificationRequest() {
 		);
 		const options = {
 			applicationServerKey,
-			userVisibleOnly: true,
+			userVisibleOnly: true, // This ensures the delivery of notifications that are visible to the user, eliminating silent notifications. (Mandatory in Chrome, and optional in Firefox)
 		};
 		const subscription = await newRegistration.pushManager.subscribe(
 			options
